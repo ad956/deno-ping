@@ -25,7 +25,7 @@ router.get("/ping-db", async (ctx) => {
 });
 
 // Cron Job
-Deno.cron("keep-alive", "*/5 * * * *", async () => {
+Deno.cron("keep-alive", "0 0 * * *", async () => {
   console.log("🔄 Sending deno-ping request...");
 
   try {
