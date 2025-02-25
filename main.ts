@@ -24,6 +24,22 @@ router.get("/ping-db", async (ctx) => {
   }
 });
 
+// Cron Job
+Deno.cron("keep-alive", "/5 * * * * *", async () => {
+  console.log("🔄 Sending deno-ping request...");
+
+  try {
+    const API_URL = Deno.env.get("API_URL") || "http://localhost:8000";
+
+    const response = await fetch(`${API_URL}/ping-db`);
+    const data = await response.text();
+
+    console.log("✅ Deno Ping response:", data);
+  } catch (error) {
+    console.error("Deno Ping failed:", error);
+  }
+});
+
 // Create App
 const app = new Application();
 app.use(router.routes());
